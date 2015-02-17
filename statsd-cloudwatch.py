@@ -3,6 +3,7 @@ import copy
 import datetime
 import logging
 import re
+import select
 import socket
 import sys
 
@@ -44,7 +45,7 @@ class Metric(object):
         )
 
 
-class Count(Metric):
+class Counter(Metric):
     """ Counter: A gauge, but calculated at the server. Metrics sent incr
     or decr the value. Metrics may have a sample rate, which incoming
     metrics are scaled against."""
@@ -57,7 +58,7 @@ class Count(Metric):
         return self._value
 
     def update(self, value, args, timestamp):
-        super(Count, self).update(value, args, timestamp)
+        super(Counter, self).update(value, args, timestamp)
         sample_rate = 1.0
         if len(args) == 1:
             sample_rate = float(re.match('^@([\d\.]+)', args[0]).group(1))
@@ -191,7 +192,7 @@ class Server(object):
                 self.metrics[metric] = klass(metric)
 
             if not isinstance(self.metrics[metric], klass):
-                log.error("Metric previously type {}, now type {}".format(type(self.metrics[metric]), klass)
+                log.error("Metric previously type {}, now type {}".format(type(self.metrics[metric]), klass))
                 continue
 
             self.metrics[metric].update(value, args, timestamp)
@@ -224,7 +225,7 @@ class Server(object):
                 except Exception:
                     log.exception('Error whilst storing statistics')
 
-                self.flush_due = datetime.datetime.now() += datetime.timedelta(seconds=60)
+                self.flush_due = datetime.datetime.now() + datetime.timedelta(seconds=60)
                 log.debug("Next flush at {}".format(self.flush_due))
 
         self._sock.close()
