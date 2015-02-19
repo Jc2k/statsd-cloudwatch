@@ -159,7 +159,7 @@ class Server(object):
 
     def __init__(self, namespace="Statsd"):
         self.namespace = namespace
-        self.metric = {}
+        self.metrics = {}
         self.flush_due = datetime.datetime.now()
         self.cloudwatch = connect_to_region('eu-west-1')
 
