@@ -28,7 +28,7 @@ class Metric(object):
 
     @property
     def namespace(self):
-        return "{}/{}".format(self.server.namespace, self.namespace)
+        return "{}/{}".format(self.server.namespace, self._namespace)
 
     def update(self, value, args, timestamp):
         self.timestamp = timestamp
