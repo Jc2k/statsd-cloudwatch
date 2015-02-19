@@ -20,7 +20,8 @@ class Metric(object):
     statistics = None
     default = None
 
-    def __init__(self, name):
+    def __init__(self, server, name):
+        self.server = server
         self._namespace, self.name = name.rsplit(".", 1)
         self._namespace = self._namespace.replace(".", "/")
         self._value = copy.copy(self.default)
@@ -189,7 +190,7 @@ class Server(object):
                 continue
 
             if metric not in self.metrics:
-                self.metrics[metric] = klass(metric)
+                self.metrics[metric] = klass(self, metric)
 
             if not isinstance(self.metrics[metric], klass):
                 log.error("Metric previously type {}, now type {}".format(type(self.metrics[metric]), klass))
