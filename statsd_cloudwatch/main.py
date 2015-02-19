@@ -118,10 +118,10 @@ class Timer(Metric):
     def statistics(self):
         value = sorted(self._value)
         return {
-            'Minimum': value[0],
-            'Maximum': value[-1],
-            'Sum': sum(value),
-            'SampleCount': len(value),
+            'minimum': value[0],
+            'maximum': value[-1],
+            'sum': sum(value),
+            'samplecount': len(value),
         }
 
 
