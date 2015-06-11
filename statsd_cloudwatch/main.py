@@ -34,7 +34,7 @@ class Metric(object):
         self.timestamp = timestamp
 
     def push(self):
-        if not self.statistics and not self.value:
+        if self.statistics is None and self.value is None:
             return
         self.server.cloudwatch.put_metric_data(
             namespace=self.namespace,
