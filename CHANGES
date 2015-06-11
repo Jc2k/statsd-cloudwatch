@@ -1,7 +1,7 @@
 Changelog for Touchdown
 =======================
 
-0.0.2 (unreleased)
+0.0.2 (2015-06-11)
 ------------------
 
 - Fix sending ``0`` metrics (``not foo`` vs ``foo is not None``).
