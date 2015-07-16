@@ -7,6 +7,7 @@ import select
 import socket
 import sys
 
+from boto.utils import get_instance_metadata
 from boto.ec2.cloudwatch import connect_to_region
 
 
@@ -162,7 +163,8 @@ class Server(object):
         self.namespace = namespace
         self.metrics = {}
         self.flush_due = datetime.datetime.now()
-        self.cloudwatch = connect_to_region('eu-west-1')
+        self.region = get_instance_metadata()["placement"]["availability-zone"][:-1]
+        self.cloudwatch = connect_to_region(self.region)
 
     def clean_key(self, key):
         return re.sub(r'[^a-zA-Z_\-0-9\.]', '', re.sub(

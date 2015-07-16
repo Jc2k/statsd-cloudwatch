@@ -4,7 +4,8 @@ Changelog for Touchdown
 0.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Instead of hardcoding eu-west-1, use get_instance_metadata() to automatically
+  determine the region an ec2 instance is in.
 
 
 0.0.2 (2015-06-11)
